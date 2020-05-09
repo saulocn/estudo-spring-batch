@@ -6,6 +6,9 @@ import org.springframework.batch.item.ItemProcessor;
 public class CustomItemProcessor implements ItemProcessor<Transaction, Transaction> {
 
     public Transaction process(Transaction item) {
+        if(item.getAmount()<0){
+            item.setNegativeTransaction(true);
+        }
         return item;
     }
 }

@@ -18,7 +18,7 @@ public class RecordFieldSetMapper  implements FieldSetMapper<Transaction> {
         transaction.setUserId(fieldSet.readInt(1));
         transaction.setAmount(fieldSet.readDouble(3));
         String dateString = fieldSet.readString(2);
-        System.out.println(dateString);
+        
         final LocalDateTime data = LocalDate.parse(dateString, formatter).atStartOfDay();
         transaction.setTransactionDate(data);
         System.out.println(transaction);

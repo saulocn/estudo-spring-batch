@@ -14,6 +14,16 @@ public class Transaction {
     private LocalDateTime transactionDate;
     private double amount;
 
+    public boolean isNegativeTransaction() {
+        return isNegativeTransaction;
+    }
+
+    public void setNegativeTransaction(final boolean negativeTransaction) {
+        isNegativeTransaction = negativeTransaction;
+    }
+
+    private boolean isNegativeTransaction;
+
     public String getUsername() {
         return username;
     }
