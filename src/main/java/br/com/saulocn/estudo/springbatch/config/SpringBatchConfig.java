@@ -41,6 +41,7 @@ public class SpringBatchConfig {
     @Bean
     public ItemReader<Transaction> itemReader()
             throws UnexpectedInputException, ParseException {
+        System.out.println("Lendo...");
         FlatFileItemReader<Transaction> reader = new FlatFileItemReader<Transaction>();
         DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
         String[] tokens = { "username", "userid", "transactiondate", "amount" };
@@ -62,6 +63,7 @@ public class SpringBatchConfig {
     @Bean
     public ItemWriter<Transaction> itemWriter(Marshaller marshaller)
             throws MalformedURLException {
+        System.out.println("Escrevendo...");
         StaxEventItemWriter<Transaction> itemWriter =
                 new StaxEventItemWriter<Transaction>();
         itemWriter.setMarshaller(marshaller);
@@ -81,12 +83,23 @@ public class SpringBatchConfig {
     protected Step step1(ItemReader<Transaction> reader,
             ItemProcessor<Transaction, Transaction> processor,
             ItemWriter<Transaction> writer) {
-        return steps.get("step1").<Transaction, Transaction> chunk(10)
+        System.out.println("Construindo Step 2 que processará de 3 em 3");
+        return steps.get("step1").<Transaction, Transaction> chunk(2)
+                .reader(reader).processor(processor).writer(writer).build();
+    }
+
+
+    @Bean
+    protected Step step2(ItemReader<Transaction> reader,
+            ItemProcessor<Transaction, Transaction> processor,
+            ItemWriter<Transaction> writer) {
+        System.out.println("Construindo Step 2 que processará de 1 a 1");
+        return steps.get("step2").<Transaction, Transaction> chunk(1)
                 .reader(reader).processor(processor).writer(writer).build();
     }
 
     @Bean(name = "firstBatchJob")
-    public Job job(@Qualifier("step1") Step step1) {
-        return jobs.get("firstBatchJob").start(step1).build();
+    public Job job(@Qualifier("step1") Step step1, @Qualifier("step2") Step step2) {
+        return jobs.get("firstBatchJob").start(step1).next(step2).build();
     }
 }
