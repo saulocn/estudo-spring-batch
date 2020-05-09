@@ -1,4 +1,4 @@
-package br.com.saulocn.estudo.springbatch.chunks.config;
+package br.com.saulocn.estudo.springbatch.async.config;
 
 import java.net.MalformedURLException;
 import javax.sql.DataSource;
@@ -13,11 +13,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
-import org.springframework.core.task.TaskExecutor;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
@@ -29,16 +28,12 @@ public class AsyncBatchConfig {
     @Value("org/springframework/batch/core/schema-sqlite.sql")
     private Resource dataReopsitorySchema;
 
-    @Bean
-    public TaskExecutor threadPoolTaskExecutor(){
-
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setMaxPoolSize(12);
-        executor.setCorePoolSize(8);
-        executor.setQueueCapacity(15);
-
-        return executor;
+    public SimpleAsyncTaskExecutor simpleAsyncTaskExecutor() {
+        SimpleAsyncTaskExecutor simpleAsyncTaskExecutor = new SimpleAsyncTaskExecutor();
+        simpleAsyncTaskExecutor.setConcurrencyLimit(10);
+        return simpleAsyncTaskExecutor;
     }
+
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -78,7 +73,7 @@ public class AsyncBatchConfig {
     public JobLauncher getJobLauncher() throws Exception {
         SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
         jobLauncher.setJobRepository(getJobRepository());
-        jobLauncher.setTaskExecutor(threadPoolTaskExecutor());
+        jobLauncher.setTaskExecutor(simpleAsyncTaskExecutor());
         return jobLauncher;
     }
 }

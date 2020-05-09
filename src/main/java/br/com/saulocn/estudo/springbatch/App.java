@@ -1,6 +1,6 @@
 package br.com.saulocn.estudo.springbatch;
 
-import br.com.saulocn.estudo.springbatch.chunks.config.AsyncBatchConfig;
+import br.com.saulocn.estudo.springbatch.async.config.AsyncBatchConfig;
 import br.com.saulocn.estudo.springbatch.config.SpringBatchConfig;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
