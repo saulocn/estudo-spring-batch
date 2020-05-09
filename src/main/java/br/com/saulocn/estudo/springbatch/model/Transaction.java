@@ -1,5 +1,6 @@
 package br.com.saulocn.estudo.springbatch.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -8,7 +9,7 @@ import br.com.saulocn.estudo.springbatch.model.mapper.LocalDateTimeAdapter;
 
 @SuppressWarnings("restriction")
 @XmlRootElement(name = "transactionRecord")
-public class Transaction {
+public class Transaction implements Serializable {
     private String username;
     private int userId;
     private LocalDateTime transactionDate;
