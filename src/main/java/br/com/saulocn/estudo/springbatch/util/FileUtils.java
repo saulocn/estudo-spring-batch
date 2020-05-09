@@ -1,4 +1,4 @@
-package br.com.saulocn.estudo.springbatch.tasklets;
+package br.com.saulocn.estudo.springbatch.util;
 
 import java.io.File;
 import java.io.FileReader;
@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import br.com.saulocn.estudo.springbatch.tasklets.model.Line;
+import br.com.saulocn.estudo.springbatch.model.Line;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 

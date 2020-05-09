@@ -1,4 +1,4 @@
-package br.com.saulocn.estudo.springbatch.tasklets.model;
+package br.com.saulocn.estudo.springbatch.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;

@@ -2,7 +2,8 @@ package br.com.saulocn.estudo.springbatch.tasklets;
 
 import java.util.List;
 
-import br.com.saulocn.estudo.springbatch.tasklets.model.Line;
+import br.com.saulocn.estudo.springbatch.model.Line;
+import br.com.saulocn.estudo.springbatch.util.FileUtils;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.StepExecution;
@@ -15,6 +16,7 @@ import org.springframework.batch.repeat.RepeatStatus;
 public class LinesWriter implements Tasklet, StepExecutionListener {
     private List<Line> lines;
     private FileUtils fu;
+    private String filename= "saida_tasklet.csv";
 
     @Override
     public void beforeStep(StepExecution stepExecution) {
@@ -22,7 +24,7 @@ public class LinesWriter implements Tasklet, StepExecutionListener {
                 .getJobExecution()
                 .getExecutionContext();
         this.lines = (List<Line>) executionContext.get("lines");
-        fu = new FileUtils("saida.csv");
+        fu = new FileUtils(filename);
         System.out.println("Inicializando escrita das linhas");
     }
 

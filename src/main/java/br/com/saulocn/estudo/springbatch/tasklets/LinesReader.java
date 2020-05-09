@@ -3,7 +3,8 @@ package br.com.saulocn.estudo.springbatch.tasklets;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.saulocn.estudo.springbatch.tasklets.model.Line;
+import br.com.saulocn.estudo.springbatch.model.Line;
+import br.com.saulocn.estudo.springbatch.util.FileUtils;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.StepExecution;
@@ -15,11 +16,12 @@ import org.springframework.batch.repeat.RepeatStatus;
 public class LinesReader implements Tasklet, StepExecutionListener {
     private List<Line> lines;
     private FileUtils fu;
+    String filename = "input_bdays.csv";
 
     @Override
     public void beforeStep(StepExecution stepExecution) {
         lines = new ArrayList<>();
-        fu = new FileUtils("input_bdays.csv");
+        fu = new FileUtils(filename);
         System.out.println("Inicializando leitura dos dados");
     }
 
