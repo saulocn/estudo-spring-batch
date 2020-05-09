@@ -1,19 +1,21 @@
 package br.com.saulocn.estudo.springbatch;
 
+import br.com.saulocn.estudo.springbatch.chunks.config.AsyncBatchConfig;
 import br.com.saulocn.estudo.springbatch.config.SpringBatchConfig;
-import br.com.saulocn.estudo.springbatch.config.SpringConfig;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.scheduling.annotation.EnableAsync;
 
+@EnableAsync
 public class App {
     public static void main(String[] args) {
 
         //Iniciando através das classes de config
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-        context.register(SpringConfig.class);
+        context.register(AsyncBatchConfig.class);
         context.register(SpringBatchConfig.class);
         context.refresh();
 
