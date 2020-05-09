@@ -27,6 +27,8 @@ public class ChunksConfig {
     @Autowired
     private StepBuilderFactory steps;
 
+    private int tamanhoLote = 2;
+
     @Bean
     public JobLauncherTestUtils jobLauncherTestUtils() {
         return new JobLauncherTestUtils();
@@ -50,7 +52,7 @@ public class ChunksConfig {
     @Bean
     protected Step processLines(ItemReader<Line> reader,
             ItemProcessor<Line, Line> processor, ItemWriter<Line> writer) {
-        return steps.get("processLines").<Line, Line> chunk(2)
+        return steps.get("processLines").<Line, Line> chunk(tamanhoLote)
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)
